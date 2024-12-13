@@ -22,12 +22,20 @@ import Offer from "./pages/Offer/Offer";
 import Payment from "./pages/payment/Payment";
 import ProductDetails from "./pages/ProductDetails/ProductDetails";
 import Shop from "./pages/Shop/Shop";
+import { useEffect } from "react";
+import { fetchCategories } from "./backend/integration/firebaseActions";
+import { useDispatch, useSelector } from "react-redux";
 
 const Layout = () => {
+  const dispatch=useDispatch();
+  const category=useSelector((state)=>state.orebiReducer.categories);
+  useEffect(()=>{
+    fetchCategories(dispatch);
+  },[])
   return (
     <div>
       <Header />
-      <HeaderBottom />
+      <HeaderBottom category={category} />
       <SpecialCase />
       <ScrollRestoration />
       <Outlet />
@@ -61,7 +69,7 @@ const router = createBrowserRouter(
 function App() {
   return (
     <div className="font-bodyFont">
-      <RouterProvider router={router} />
+        <RouterProvider router={router} />
     </div>
   );
 }

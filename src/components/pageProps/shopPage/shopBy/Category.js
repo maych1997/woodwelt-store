@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 // import { FaPlus } from "react-icons/fa";
 import { ImPlus } from "react-icons/im";
 import NavTitle from "./NavTitle";
+import { get, ref } from "firebase/database";
+import { database } from "../../../../backend/connection";
 
 const Category = () => {
   const [showSubCatOne, setShowSubCatOne] = useState(false);
