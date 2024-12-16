@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import ReactPaginate from "react-paginate";
 import Product from "../../home/Products/Product";
 import { paginationItems } from "../../../constants";
+import { useSelector } from "react-redux";
 
-const items = paginationItems;
+
 function Items({ currentItems }) {
   return (
     <>
@@ -12,12 +13,12 @@ function Items({ currentItems }) {
           <div key={item._id} className="w-full">
             <Product
               _id={item._id}
-              img={item.img}
+              img={item.image}
               productName={item.productName}
-              price={item.price}
+              price={item.regularPrice}
               color={item.color}
               badge={item.badge}
-              des={item.des}
+              des={item.description}
             />
           </div>
         ))}
@@ -26,6 +27,7 @@ function Items({ currentItems }) {
 }
 
 const Pagination = ({ itemsPerPage }) => {
+  const items = useSelector((state)=>state.orebiReducer.productList);
   // Here we use item offsets; we could also use page offsets
   // following the API or data you're working with.
   const [itemOffset, setItemOffset] = useState(0);
