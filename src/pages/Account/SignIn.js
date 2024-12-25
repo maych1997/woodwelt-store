@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { BsCheckCircleFill } from "react-icons/bs";
 import { Link, useNavigate } from "react-router-dom";
 import { logoLight } from "../../assets/images";
-import { signInWithEmailAndPassword } from "firebase/auth"; // Import Firebase authentication
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../backend/connection";
 
 const SignIn = () => {
@@ -61,7 +61,7 @@ const SignIn = () => {
 					})
 					.catch((error) => {
 						setLoad(false);
-						alert(error.message); 
+						alert(error.message);
 					});
 			} catch (error) {
 				setLoad(false);
