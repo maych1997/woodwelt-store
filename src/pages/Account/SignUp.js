@@ -2,8 +2,17 @@ import React, { useState } from "react";
 import { BsCheckCircleFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { logoLight } from "../../assets/images";
-import { auth } from "../../backend/connection";
+import { auth, database } from "../../backend/connection";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+	ref as dbRef,
+	get,
+	onValue,
+	ref,
+	set,
+	update,
+} from "firebase/database";
+
 const SignUp = () => {
 	// ============= Initial State Start here =============
 	const [clientName, setClientName] = useState("");
@@ -122,6 +131,23 @@ const SignUp = () => {
 
 					const user = userCredential.user;
 
+					// Create a reference to store customer data
+					const customerRef = dbRef(database, "customers/" + user.uid);
+
+					// Store customer data in the database
+					await set(customerRef, {
+						uid: user.uid,
+						clientName: clientName,
+						email: email,
+						phone: phone,
+						address: address,
+						city: city,
+						country: country,
+						zip: zip,
+						createdAt: new Date().toISOString(),
+						role: "customer", // Adding a role field to distinguish customers
+					});
+
 					// Success message
 					setSuccessMsg(
 						`Hello dear ${clientName}, Welcome to OREBI Admin panel. Your signup is successful! Please verify your email at ${email}.`
@@ -136,17 +162,21 @@ const SignUp = () => {
 					setCity("");
 					setCountry("");
 					setZip("");
+
+					// navigate("/customer/dashboard");
 				} catch (error) {
 					// Handle Firebase errors
 					if (error.code === "auth/email-already-in-use") {
 						setErrEmail("This email is already registered.");
 					} else {
+						console.error("Error during signup:", error);
 						alert("Signup failed: " + error.message);
 					}
 				}
 			}
 		}
 	};
+
 	return (
 		<div className="w-full h-screen flex items-center justify-start">
 			<div className="w-1/2 hidden lgl:inline-flex h-full text-white">

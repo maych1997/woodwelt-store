@@ -45,30 +45,30 @@ const SignIn = () => {
 		return isValid;
 	};
 
-	// Handle Login
 	const handleSignIn = async (e) => {
-		e.preventDefault();
+		if (e && e.preventDefault) {
+			e.preventDefault();
+		}
 		setLoad(true);
+		console.log("Attempting to sign in...");
 
 		if (validateLoginForm(email, password, setErrors)) {
 			try {
-				await signInWithEmailAndPassword(auth, email, password)
-					.then((result) => {
-						if (result) {
-							setLoad(false);
-							navigate("/");
-						}
-					})
-					.catch((error) => {
-						setLoad(false);
-						alert(error.message);
-					});
+				const result = await signInWithEmailAndPassword(auth, email, password);
+				console.log("Sign-in result:", result);
+				if (result) {
+					setLoad(false);
+					console.log("User signed in successfully!");
+					navigate("/");
+				}
 			} catch (error) {
 				setLoad(false);
+				console.error("Sign-in error:", error);
 				alert(error.message);
 			}
 		} else {
 			setLoad(false);
+			console.log("Validation failed. Errors:", errors);
 		}
 	};
 
@@ -178,6 +178,7 @@ const SignIn = () => {
 
 							{/* Submit Button */}
 							<button
+								type="button"
 								onClick={handleSignIn}
 								className="bg-primeColor hover:bg-black text-gray-200 hover:text-white cursor-pointer w-full text-base font-medium h-10 rounded-md duration-300"
 								disabled={load}
