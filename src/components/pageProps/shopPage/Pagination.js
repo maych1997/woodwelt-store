@@ -2,22 +2,23 @@ import React, { useState } from "react";
 import ReactPaginate from "react-paginate";
 import Product from "../../home/Products/Product";
 import { paginationItems } from "../../../constants";
+import { useSelector } from "react-redux";
 
-const items = paginationItems;
+
 function Items({ currentItems }) {
   return (
     <>
       {currentItems &&
-        currentItems.map((item) => (
-          <div key={item._id} className="w-full">
+        currentItems?.map((item) => (
+          <div key={item?._id} className="w-full">
             <Product
-              _id={item._id}
-              img={item.img}
-              productName={item.productName}
-              price={item.price}
-              color={item.color}
-              badge={item.badge}
-              des={item.des}
+              _id={item?._id}
+              img={item?.image}
+              productName={item?.productName}
+              price={item?.regularPrice}
+              color={item?.color?.colorCode}
+              badge={item?.badge}
+              des={item?.description}
             />
           </div>
         ))}
@@ -26,6 +27,7 @@ function Items({ currentItems }) {
 }
 
 const Pagination = ({ itemsPerPage }) => {
+  const items = useSelector((state)=>state.orebiReducer.productList);
   // Here we use item offsets; we could also use page offsets
   // following the API or data you're working with.
   const [itemOffset, setItemOffset] = useState(0);

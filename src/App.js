@@ -23,7 +23,7 @@ import Payment from "./pages/payment/Payment";
 import ProductDetails from "./pages/ProductDetails/ProductDetails";
 import Shop from "./pages/Shop/Shop";
 import { useEffect } from "react";
-import { fetchCategories } from "./backend/integration/firebaseActions";
+import { fetchCategories, fetchProducts } from "./backend/integration/firebaseActions";
 import { useDispatch, useSelector } from "react-redux";
 
 const Layout = () => {
@@ -31,6 +31,7 @@ const Layout = () => {
   const category=useSelector((state)=>state.orebiReducer.categories);
   useEffect(()=>{
     fetchCategories(dispatch);
+    fetchProducts(dispatch);
   },[])
   return (
     <div>

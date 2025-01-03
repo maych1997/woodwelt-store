@@ -4,6 +4,7 @@ const initialState = {
   userInfo: [],
   products: [],
   categories:[],
+  productList:[],
 };
 
 export const orebiSlice = createSlice({
@@ -48,6 +49,9 @@ export const orebiSlice = createSlice({
     },
     setProductCategories:(state,action)=>{
       state.categories=action.payload
+    },
+    setProductList:(state,action)=>{
+      state.productList=action.payload
     }
   },
 });
@@ -58,6 +62,7 @@ export const {
   drecreaseQuantity,
   deleteItem,
   resetCart,
-  setProductCategories,
+  setProductList,
+  setProductCategories
 } = orebiSlice.actions;
 export default orebiSlice.reducer;
