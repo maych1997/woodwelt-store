@@ -9,16 +9,16 @@ function Items({ currentItems }) {
   return (
     <>
       {currentItems &&
-        currentItems.map((item) => (
-          <div key={item._id} className="w-full">
+        currentItems?.map((item) => (
+          <div key={item?._id} className="w-full">
             <Product
-              _id={item._id}
-              img={item.image}
-              productName={item.productName}
-              price={item.regularPrice}
-              color={item.color}
-              badge={item.badge}
-              des={item.description}
+              _id={item?._id}
+              img={item?.image}
+              productName={item?.productName}
+              price={item?.regularPrice}
+              color={item?.color?.colorCode}
+              badge={item?.badge}
+              des={item?.description}
             />
           </div>
         ))}

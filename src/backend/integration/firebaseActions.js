@@ -27,7 +27,7 @@ const fetchCategories = async (dispatch) => {
         const snapshot = await get(productRef);
         if (snapshot.exists()) {
           const data = snapshot.val();
-          const productArray = Object.keys(data).map((key, index) => ({
+          const productArray = Object.keys(data)?.map((key, index) => ({
             id: index,
             ...data[key],
           }));

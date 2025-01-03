@@ -11,7 +11,7 @@ import { addToCart } from "../../../redux/orebiSlice";
 
 const Product = (props) => {
   const dispatch = useDispatch();
-  const _id = props.productName;
+  const _id = props?.productName;
   const idString = (_id) => {
     return String(_id).toLowerCase().split(" ").join("");
   };
@@ -30,10 +30,10 @@ const Product = (props) => {
     <div className="w-full relative group">
       <div className="max-w-80 max-h-80 relative overflow-y-hidden ">
         <div>
-          <Image className="w-full h-full" imgSrc={props.img} />
+          <Image className="w-full h-full" imgSrc={props?.img} />
         </div>
         <div className="absolute top-6 left-8">
-          {props.badge && <Badge text="New" />}
+          {props?.badge && <Badge text="New" />}
         </div>
         <div className="w-full h-32 absolute bg-white -bottom-[130px] group-hover:bottom-0 duration-700">
           <ul className="w-full h-full flex flex-col items-end justify-center gap-2 font-titleFont px-2 border-l border-r">
@@ -47,13 +47,13 @@ const Product = (props) => {
               onClick={() =>
                 dispatch(
                   addToCart({
-                    _id: props._id,
-                    name: props.productName,
+                    _id: props?._id,
+                    name: props?.productName,
                     quantity: 1,
-                    image: props.img,
-                    badge: props.badge,
-                    price: props.price,
-                    colors: props.color,
+                    image: props?.img,
+                    badge: props?.badge,
+                    price: props?.price,
+                    colors: props?.color,
                   })
                 )
               }
@@ -85,12 +85,9 @@ const Product = (props) => {
       <div className="max-w-80 py-6 flex flex-col gap-1 border-[1px] border-t-0 px-4">
         <div className="flex items-center justify-between font-titleFont">
           <h2 className="text-lg text-primeColor font-bold">
-            {props.productName}
+            {props?.productName}
           </h2>
-          <p className="text-[#767676] text-[14px]">${props.price}</p>
-        </div>
-        <div>
-          <p className="text-[#767676] text-[14px]">{props.color}</p>
+          <p className="text-[#767676] text-[14px]">${props?.price}</p>
         </div>
       </div>
     </div>
