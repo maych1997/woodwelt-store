@@ -6,6 +6,7 @@ import Flex from "../../designLayouts/Flex";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { paginationItems } from "../../../constants";
+import { getAuth, signOut } from "firebase/auth";
 
 const HeaderBottom = ({category}) => {
   const products = useSelector((state) => state.orebiReducer.products);
@@ -26,29 +27,23 @@ const HeaderBottom = ({category}) => {
     });
   }, [show, ref]);
 
-  const handleSearch = (e) => {
-    setSearchQuery(e.target.value);
-  };
+	useEffect(() => {
+		const handleClick = (e) => {
+			if (!ref.current) return;
+			if (ref.current.contains(e.target)) {
+				setShow(true);
+			} else {
+				setShow(false);
+			}
+		};
 
-  useEffect(() => {
-    const filtered = paginationItems.filter((item) =>
-      item.productName.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-    setFilteredProducts(filtered);
-    setShowSearchBar(showSearchBar);
-  }, [searchQuery]);
+		document.addEventListener("click", handleClick);
+		return () => document.removeEventListener("click", handleClick);
+	}, []);
 
-  return (
-    <div className="w-full bg-[#F5F5F3] relative">
-      <div className="max-w-container mx-auto">
-        <Flex className="flex flex-col lg:flex-row items-start lg:items-center justify-between w-full px-4 pb-4 lg:pb-0 h-full lg:h-24">
-          <div
-            onClick={() => setShow(!show)}
-            ref={ref}
-            className="flex h-14 cursor-pointer items-center gap-2 text-primeColor"
-          >
-            <HiOutlineMenuAlt4 className="w-5 h-5" />
-            <p className="text-[14px] font-normal">Shop by Category</p>
+	const handleSearch = (e) => {
+		setSearchQuery(e.target.value);
+	};
 
             {show && (
               <motion.ul
@@ -167,6 +162,25 @@ const HeaderBottom = ({category}) => {
       </div>
     </div>
   );
+	useEffect(() => {
+		const filtered = paginationItems.filter((item) =>
+			item.productName.toLowerCase().includes(searchQuery.toLowerCase())
+		);
+		setFilteredProducts(filtered);
+		setShowSearchBar(showSearchBar);
+	}, [searchQuery]);
+
+	const handleLogout = async () => {
+		const auth = getAuth();
+		try {
+			await signOut(auth);
+			console.log("User successfully logged out.");
+			navigate("/signin");
+		} catch (error) {
+			console.error("Logout failed:", error.message);
+			alert("Failed to log out. Please try again.");
+		}
+	};
 };
 
 export default HeaderBottom;
